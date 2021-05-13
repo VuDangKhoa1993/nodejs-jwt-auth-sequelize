@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-
 const app = express();
 
 const corsOptions = {
@@ -15,15 +14,26 @@ app.use(bodyParser.json());
 // parse request for content-type is application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// simple route
-app.get('/', (req, res, next) => {
-    res.json({
-        message: 'welcome to demo application'
-    });
-});
+const db = require('./models/index');
+const Role = db.role;
 
-// set port and listen for requests
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+(async () => {
+    try {
+        await db.sequelize.sync({ force: true });
+        await db.sequelize.authenticate();
+        console.log('connect to the database successfull')
+    }
+    catch(err) {
+        console.log('error when connect to database');
+        console.log(err)
+    }
+})();
+
+// .then(() => {
+//     // initial();
+//     Role.bulkCreate([
+//         { id: 1, name: 'User'},
+//         { id: 2, name: 'moderator'},
+//         { id: 3, name: 'admin' }
+//     ]);
+// });
