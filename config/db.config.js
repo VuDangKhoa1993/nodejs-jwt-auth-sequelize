@@ -2,8 +2,9 @@ module.exports = {
     host: "localhost",
     username: "root",
     password: "Dangkhoavu@1993",
-    database: "taobitcoin",
+    database: "testdb",
     dialect: "mysql",
+    port: 3306,
     pool: {
         max: 5, 
         min: 0,

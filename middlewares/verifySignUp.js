@@ -10,7 +10,7 @@ const checkDuplicateUsernameOrEmail = async (req, res, next) => {
                 username: req.body.username
             }
         });
-        if(userByUsername) {
+        if(!!userByUsername) {
             res.status(400).send({
                 message: 'Failed! User is already existing !'
             });
@@ -25,7 +25,7 @@ const checkDuplicateUsernameOrEmail = async (req, res, next) => {
             }
         });
         
-        if(userByEmail) {
+        if(!!userByEmail) {
             res.status(400).send({
                 message: 'Failed! Email is already existing '
             });
@@ -37,3 +37,30 @@ const checkDuplicateUsernameOrEmail = async (req, res, next) => {
          console.log(err);
     }
 }
+
+const checkRoleExisted = async (req, res, next) => {
+    try {
+        if(req.body.roles) {
+            for(let i = 0; i < req.body.roles.length; i++) {
+                if(!db.ROLE.includes(req.body.roles[i])) {
+                    res.status(400).send({
+                        message: `Failed! Role doesn't exist ${res.body.roles[i]}`
+                    });
+                    return;
+                }
+            }
+        }
+        next();
+    }
+    catch(err) {
+        console.log('check role has an error !');
+        console.log(err);
+    }
+}
+
+const verifySignUp = {
+    checkDuplicateUsernameOrEmail,
+    checkRoleExisted
+};
+
+module.exports = verifySignUp;

@@ -2,13 +2,13 @@ const config = require('../config/db.config.js');
 const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize(
-    config.database,
-    config.username, 
-    config.password,
     {
+        database: config.database,
+        username: config.username, 
+        password: config.password,
         host: config.host,
         dialect: config.dialect,
-        operatorsAliases: true,
+        port: config.port,
         pool: {
             max: config.pool.max,
             min: config.pool.min,
@@ -17,11 +17,6 @@ const sequelize = new Sequelize(
         }
     }
 );
-
-// const sequelize = new Sequelize('sqlite::memory:', {
-//     logging: console.log
-// });
-
 
 const db = { };
 db.Sequelize = Sequelize;

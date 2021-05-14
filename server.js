@@ -20,20 +20,17 @@ const Role = db.role;
 (async () => {
     try {
         await db.sequelize.sync({ force: true });
-        await db.sequelize.authenticate();
-        console.log('connect to the database successfull')
+        await initial();
     }
-    catch(err) {
-        console.log('error when connect to database');
+    catch (err) {
         console.log(err)
     }
 })();
 
-// .then(() => {
-//     // initial();
-//     Role.bulkCreate([
-//         { id: 1, name: 'User'},
-//         { id: 2, name: 'moderator'},
-//         { id: 3, name: 'admin' }
-//     ]);
-// });
+async function initial() {
+    await Role.bulkCreate([
+        { id: 1, name: 'user' },
+        { id: 2, name: 'moderator' },
+        { id: 3, name: 'admin' }
+    ])
+}
